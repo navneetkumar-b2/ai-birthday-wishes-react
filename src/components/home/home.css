@@ -1,0 +1,17 @@
+.home-section{
+    position: absolute;
+    z-index: -1;
+    width: 100vw;
+    height: 100vh;
+    top: 0px;
+    backgroundColor: rgb(184, 251, 242);
+    background-image:  url(../../assets/day-care-hero-blobs-background.svg);
+    background-position: top right;
+    background-repeat: no-repeat;
+    background-size: 50%;
+    padding-bottom: 30px !important;
+    padding-top: 30px !important;
+}
+.lyric-border{
+    
+}
