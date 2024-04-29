@@ -7,7 +7,6 @@ Generate a unique and engaging birthday greeting message for ${receipt} in ${lan
   if (hobbies) {
     prompt += `Who love and enjoy ${hobbies}, integrate ${hobbies} into the message in a natural way.`;
   }
-
   switch (tone) {
     case 'Short and Simple':
       prompt += 'Aim for a concise and straightforward message.';
@@ -92,8 +91,6 @@ function generatePositiveWords(name) {
   return formattedWords;
 }
 
-
-
 function extractMessage(text) {
   const parts = text.split('@').map(part => part.trim()).filter(Boolean);
       // Extract the lines into separate variables
@@ -118,9 +115,25 @@ function extractMessage(text) {
       
   return { part1, part2 };
 }
+async function fetchData(){
+  try {
+    setLoading(true); // Set loading state to true while fetching data
+    const prompt=generatePrompt(name, hobbies, tone, language);
+    // alert(prompt)
+    const res = await fetchGeminiData(prompt);
+    const { part1, part2 } = extractMessage(res);
+    const part3 =generatePositiveWords(name) //array value is returned
+    setFirstLine(part1);
+    setSecondLine(part2);
+    setThirdLine(part3);
+    setName1(name1)
+  } catch (error) {
+    console.error(error);
+    alert(error.message);
+  } finally {
+    setLoading(false);
+  }
+}
 
 
-
-
-
-export { generatePrompt,extractMessage,generatePositiveWords};
+export { generatePrompt,extractMessage,generatePositiveWords,fetchData};

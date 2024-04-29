@@ -1,4 +1,4 @@
-import React, { useState,useCallback } from "react";
+import React, { useState,useEffect } from "react";
 import InputControl from "../InputControl";
 import { fetchGeminiData } from "../../useGeminiApi";
 import {
@@ -6,7 +6,7 @@ import {
   extractMessage,
   generatePositiveWords,
 } from "../../getPrompt";
-// import generatePrompt from "../custom-hooks/useGemini";
+import useGeminiApi from "../custom-hooks/useGemini";
 // import generatePrompt from "../custom-hooks/useGemini";
 import "./loader.css";
 import "./home.css";
@@ -16,21 +16,51 @@ function Home() {
   const [hobbies, setHobbies] = useState("");
   const [tone, setTone] = useState("Short and Simple");
   const [error, setError] = useState("");
-  const [language, setLanguage] = useState("english");
+  const [language, setLanguage] = useState("English");
   const [loading, setLoading] = useState(false);
   const [generatedMessage, setGeneratedMessage] = useState(""); // State to store the generated message
   const [firstLine, setFirstLine] = useState("");
   const [secondLine, setSecondLine] = useState("");
   const [thirdLine, setThirdLine] = useState("");
-  
-//  const generatePrompts=useCallback(generatePrompt,[]);
-  // alert(prompt);
+  // useGeminiApi()
+async function fetch(){
+  try {
+    setLoading(true); // Set loading state to true while fetching data
+    const prompt=generatePrompt(name, hobbies, tone, language);
+    alert(prompt)
+    const res = await fetchGeminiData(prompt);
+    const { part1, part2 } = extractMessage(res);
+    const part3 =generatePositiveWords(name) //array value is returned
+    setFirstLine(part1);
+    setSecondLine(part2);
+    setThirdLine(part3);
+    setName1(name1)
+  } catch (error) {
+    console.error(error);
+    alert(error.message);
+  } finally {
+    setLoading(false);
+  }
+}
   const handleSelectChange = (event) => {
-    setTone(event.target.value); // Update the selected option when it changes
+    setTone(event.target.value);
+    alert(tone)
+    if (name) {
+      fetch();
+    }
+     // Update the selected option when it changes
   };
   const handleLanguageChange = (event) => {
-    setLanguage(event.target.value);
+    const newLanguage = event.target.value;
+    setLanguage(newLanguage);
   };
+  
+  useEffect(() => {
+    if (name) {
+      fetch(); // Call your fetch function here
+    }
+  }, [tone, language]); // Trigger the effect when either name or language changes
+  
 
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevent default form submission behavior
@@ -38,31 +68,11 @@ function Home() {
       setError("this field is required");
       return; // Exit the function if name is empty
     }
-
     // Clear any previous errors
     setError(null);
     console.log("called submit");
     let name1=name;
-    try {
-      setLoading(true); // Set loading state to true while fetching data
-      const prompt=generatePrompt(name, hobbies, tone, language);
-      alert(prompt)
-
-      const res = await fetchGeminiData(prompt);
-      const { part1, part2 } = extractMessage(res);
-      const part3 =generatePositiveWords(name) //array value is returned
-
-      setFirstLine(part1);
-      setSecondLine(part2);
-      setThirdLine(part3);
-      setName1(name1)
-
-    } catch (error) {
-      console.error(error);
-      alert(error.message);
-    } finally {
-      setLoading(false);
-    }
+    fetch();
   };
   return (
     <>
@@ -108,7 +118,7 @@ function Home() {
             <option value="Heartfelt">Heartfelt</option>
             <option value="Inspirational">Inspirational</option>
             <option value="Professional">Professional</option>
-            <option value="Poetic">Inspirational</option>
+            <option value="Poetic">Poetic</option>
           </select>
           <label className="text-xl h-[60px] mb-[30px] mt-2 text-green-800  font-bold text-left">
             language :
@@ -157,7 +167,7 @@ function Home() {
             
               <div className="flex flex-col px-4 mx-2 ">
                 <p className="text-2xl font-bold text-orange-500">
-                  Greetings for <span className="font-bold">{name1}</span>
+                  Greetings for <span className="font-bold">{name1 || "you"}</span>
                 </p>
                 <p className="pb-8 pt-2 text-xl">{secondLine}</p>
               </div>
@@ -166,7 +176,7 @@ function Home() {
           {thirdLine && (
           
               <div className="font-bold mb-4 px-4 mx-2">
-                <h3 className="pb-4 text-xl text-orange-500"></h3>
+                <h3 className="pb-4 text-2xl text-orange-500">Specially for {name1 || "you"}</h3>
                 {thirdLine.map(word => {
                   const firstChar=word.charAt(0);
                   const restChar=word.slice(1,word.length)
