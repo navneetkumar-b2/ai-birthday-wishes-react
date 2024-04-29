@@ -36,15 +36,11 @@ switch (tone) {
 
 prompt+=`
 First line must be a short, crisp and unique lyric line for ${receipt} birthday in english.`
-prompt+=`
-At last Generate single positive or good words using every character of ${receipt}'s name.
-for example for the name bittu last line must be like @ Brave, Imaginative, Talented, Trustworthy, Unique,must follow only this format for last line
-
-`
+prompt+=``
 prompt+=`
 Overall text generated at all should not be greater than 150 words.`
 prompt+=`
-Generate the content in 3 paragraph first paragraph for creative lyric line second for birthday greeting message and third for positive words with characters of name ,and each paragraph must be start with @ symbol and must maintain this format please dont apply any style in words like **happy birthday**`
+Generate the content in 2 paragraph first paragraph for creative lyric line second for birthday greeting message and third for positive words with characters of name ,and each paragraph must be start with @ symbol and must maintain this format please dont apply any style in words like **happy birthday**`
   return prompt
 }
 
@@ -89,7 +85,7 @@ function generatePositiveWords(name) {
     return word;
   });
 //formattedWords=[ 'Motivated', 'Open-minded', 'Magical' ]
-  return formattedWords.join('\n');
+  return formattedWords;
 }
 
 
@@ -120,9 +116,7 @@ function extractMessage(text) {
 }
 
 
-function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
+
 
 
 export { generatePrompt,extractMessage,capitalizeFirstLetter,generatePositiveWords};

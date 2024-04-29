@@ -4,7 +4,6 @@ import { fetchGeminiData } from "../../useGeminiApi";
 import {
   generatePrompt,
   extractMessage,
-  capitalizeFirstLetter,
   generatePositiveWords,
 } from "../../getPrompt";
 import "./loader.css";
@@ -26,18 +25,15 @@ function Home() {
   const handleLanguageChange = (event) => {
     setLanguage(event.target.value);
   };
-
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevent default form submission behavior
     console.log("called submit");
     setLoading(true); // Set loading state to true while fetching data
     try {
       const prompt = generatePrompt(name, hobbies, tone, language);
-      //   alert(prompt);
       const res = await fetchGeminiData(prompt);
-
       const { part1, part2 } = extractMessage(res);
-      const part3 =generatePositiveWords(name)
+      const part3 =generatePositiveWords(name) //array value is returned
       setFirstLine(part1);
       setSecondLine(part2);
       setThirdLine(part3);
@@ -78,7 +74,6 @@ function Home() {
             placeholder={"caring,biking,music,dance,reels"}
             error={error.amount}
           />
-
           <label className="text-xl text-green-800  h-[60px] mb-[30px]p-1 my-3 mb-[50px] font-bold text-left">
             Keep the Tone :
           </label>
@@ -138,8 +133,8 @@ function Home() {
           {firstLine && (
             <>
               <div className="flex flex-col px-4 mx-2 py-1 items-center justify-center">
-                <h2 className="text-3xl text-center p-1 leading-10  text-orange-500">
-                  Happy Birthday ,{`${name.toUpperCase()}`}
+                <h2 style={{ textDecoration: 'dotted' }} className="text-2xl text-center dotted-text p-1 leading-10  text-black-500">
+                  Happy Birthday <span className="font-bold text-orange-500">{`${name.toUpperCase()}`}</span>
                   <br></br>
                   🧁🕯🎈🥳🎁🎉
                 </h2>
@@ -151,20 +146,27 @@ function Home() {
           {secondLine && (
             <>
               <div className="flex flex-col px-4 mx-2 ">
-                <p className="text-2xl font-bold text-black">
-                  Greetings for {`${name.toUpperCase()}`}
+                <p className="text-2xl font-bold text-orange-500">
+                  Greetings for <span className="font-bold">{`${name.toUpperCase()}`}</span>
                 </p>
                 <p className="pb-8 pt-2 text-xl">{secondLine}</p>
               </div>
             </>
           )}
-          {thirdLine && (
+          {thirdLine && ( 
             <>
-              <div className=" px-4 mx-2">
-                <p>{thirdLine}</p>
+              <div className="font-bold px-4 mx-2">
+                <h3 className="pb-4 text-xl text-orange-500">{`${name.toUpperCase()} stand for -`}</h3>
+                {thirdLine.map(word => {
+                  const firstChar=word.charAt(0);
+                  const restChar=word.slice(1,word.length)
+                  return <p className="text-centre px-4 text-xl"><span className="text-2xl text-orange-400 font-bold	">{firstChar}</span><span>{restChar}</span></p>;
+                }
+                )}
               </div>
             </>
           )}
+     
         </div>
       </div>
       )}
