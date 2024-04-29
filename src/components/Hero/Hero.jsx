@@ -1,5 +1,5 @@
 import React from "react";
-import img1 from './img1.jpeg'
+import img1 from '../../assets/img1.jpeg'
 function Hero() {
     return (
         <div style={{ backgroundColor: 'rgba(222, 255, 251, 1)' }} className="flex flex-wrap flex-col md:justify-around items-center w-full  min-h-64 md:flex-row ">

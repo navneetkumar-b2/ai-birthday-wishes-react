@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import InputControl from "../InputControl";
-import { fetchGeminiData } from "../useGeminiApi";
+import { fetchGeminiData } from "../../useGeminiApi";
 import {
   generatePrompt,
   extractMessage,
   capitalizeFirstLetter,
   generatePositiveWords,
-} from "../getPrompt";
+} from "../../getPrompt";
 import "./loader.css";
 import "./home.css";
 function Home() {
