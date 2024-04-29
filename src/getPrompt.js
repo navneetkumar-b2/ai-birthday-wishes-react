@@ -1,10 +1,14 @@
-function generatePrompt(receipt,hobbies,tone,language){
-let prompt=`
-Generate a unique and engaging birthday greeting message for ${receipt} in ${language}.`
-if(hobbies){
-  prompt +=`Who love and enjoy ${hobbies}, integrate ${hobbies} into the message in a natural way.`
-}
-switch (tone) {
+// import { useCallback } from 'react';
+
+const generatePrompt = (receipt, hobbies, tone, language) => {
+  let prompt = `
+Generate a unique and engaging birthday greeting message for ${receipt} in ${language}.`;
+
+  if (hobbies) {
+    prompt += `Who love and enjoy ${hobbies}, integrate ${hobbies} into the message in a natural way.`;
+  }
+
+  switch (tone) {
     case 'Short and Simple':
       prompt += 'Aim for a concise and straightforward message.';
       break;
@@ -30,20 +34,20 @@ switch (tone) {
       prompt += 'Aim for a more lyrical and descriptive message.';
       break;
     default:
-        prompt += '';
-        break;
+      prompt += '';
+      break;
   }
 
-prompt+=`
-First line must be a short, crisp and unique lyric line for ${receipt} birthday in english.`
-prompt+=``
-prompt+=`
-Overall text generated at all should not be greater than 150 words.`
-prompt+=`
-Generate the content in 2 paragraph first paragraph for creative lyric line second for birthday greeting message and third for positive words with characters of name ,and each paragraph must be start with @ symbol and must maintain this format please dont apply any style in words like **happy birthday**`
-  return prompt
-}
-
+  prompt += `
+First line must be a short, crisp, and unique lyric line for ${receipt} birthday.`;
+  prompt += ``;
+  prompt += `
+Overall text generated at all should not be greater than 150 words.`;
+  prompt += `
+Generate the content in 2 paragraph first paragraph for creative lyric line second for birthday greeting message and both paragraph must start with @ symbol and must maintain this format please don't apply any style in words like **happy birthday**.`;
+  
+  return prompt;
+};
 
 function generatePositiveWords(name) {
   const positiveWords = {  //object where keys are Alphabets and values are array
@@ -101,7 +105,7 @@ function extractMessage(text) {
       if(len<=3){
        part1 = parts[0].trim();
        part2 = parts[1].trim();
-       part3 = parts[2].trim();
+      //  part3 = parts[2].trim();
       }
       else if(len>=3){
          part1 = parts[0].trim();
@@ -112,11 +116,11 @@ function extractMessage(text) {
         }
       }
       
-  return { part1, part2,part3 };
+  return { part1, part2 };
 }
 
 
 
 
 
-export { generatePrompt,extractMessage,capitalizeFirstLetter,generatePositiveWords};
+export { generatePrompt,extractMessage,generatePositiveWords};

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useCallback } from "react";
 import InputControl from "../InputControl";
 import { fetchGeminiData } from "../../useGeminiApi";
 import {
@@ -6,10 +6,13 @@ import {
   extractMessage,
   generatePositiveWords,
 } from "../../getPrompt";
+// import generatePrompt from "../custom-hooks/useGemini";
+// import generatePrompt from "../custom-hooks/useGemini";
 import "./loader.css";
 import "./home.css";
 function Home() {
   const [name, setName] = useState("");
+  const [name1, setName1] = useState("");
   const [hobbies, setHobbies] = useState("");
   const [tone, setTone] = useState("Short and Simple");
   const [error, setError] = useState("");
@@ -19,24 +22,41 @@ function Home() {
   const [firstLine, setFirstLine] = useState("");
   const [secondLine, setSecondLine] = useState("");
   const [thirdLine, setThirdLine] = useState("");
+  
+//  const generatePrompts=useCallback(generatePrompt,[]);
+  // alert(prompt);
   const handleSelectChange = (event) => {
     setTone(event.target.value); // Update the selected option when it changes
   };
   const handleLanguageChange = (event) => {
     setLanguage(event.target.value);
   };
+
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevent default form submission behavior
+    if (!name) {
+      setError("this field is required");
+      return; // Exit the function if name is empty
+    }
+
+    // Clear any previous errors
+    setError(null);
     console.log("called submit");
-    setLoading(true); // Set loading state to true while fetching data
+    let name1=name;
     try {
-      const prompt = generatePrompt(name, hobbies, tone, language);
+      setLoading(true); // Set loading state to true while fetching data
+      const prompt=generatePrompt(name, hobbies, tone, language);
+      alert(prompt)
+
       const res = await fetchGeminiData(prompt);
       const { part1, part2 } = extractMessage(res);
       const part3 =generatePositiveWords(name) //array value is returned
+
       setFirstLine(part1);
       setSecondLine(part2);
       setThirdLine(part3);
+      setName1(name1)
+
     } catch (error) {
       console.error(error);
       alert(error.message);
@@ -45,9 +65,8 @@ function Home() {
     }
   };
   return (
-    <div className="">
+    <>
       <div
-        style={{ backgroundColor: "rgba(220, 255, 251, 1)" }}
         className="min-w-[300px] max-w-[600px] 
         flex flex-col items-center
         pt-7 mx-auto p-2 bg-teal-100
@@ -64,7 +83,7 @@ function Home() {
             // id={"title"}
             value={name}
             placeholder={"Enter Name Here"}
-            error={error.title}
+            error={error}
           />
           <InputControl
             label={"Hobbies :(optional)"}
@@ -72,7 +91,7 @@ function Home() {
             value={hobbies}
             onchange={(val) => setHobbies(val)}
             placeholder={"caring,biking,music,dance,reels"}
-            error={error.amount}
+            
           />
           <label className="text-xl text-green-800  h-[60px] mb-[30px]p-1 my-3 mb-[50px] font-bold text-left">
             Keep the Tone :
@@ -106,57 +125,48 @@ function Home() {
 
           <button
             type="submit"
-            className="bg-green-300 mt-4 p-2 w-[100px] rounded-lg font-bold text-green-800"
+            className="bg-green-300 mt-4 p-2 w-[150px] text-center rounded-lg font-bold text-green-800"
           >
-            Generate
+           {loading?'loading data...':'Generate'}
           </button>
         </form>
         {loading && (
           <div className="flex flex-col justify-center items-center ">
             <h1 className="mt-6"> loading data... </h1>
-            <div class="loader m-4"></div>
+            <div className="loader  m-4"></div>
           </div>
         )}
-        {/* Display the generated message if available */}
-        {generatedMessage && (
-          <div>
-            <h2>Generated Message:</h2>
-            {/* <h1 className="bg-yellow-500">{firstLine}</h1>
-          <p>{restOfText}</p> */}
-            <p className="bg-red-500">{generatedMessage}</p>
-          </div>
-        )}
-      </div>
-      {firstLine && (
+      
       <div className="w-full bg-cyan-100">
-        <div className="flex flex-col  ">
+      
+        <div className="flex flex-col ">
           {firstLine && (
-            <>
+            
               <div className="flex flex-col px-4 mx-2 py-1 items-center justify-center">
-                <h2 style={{ textDecoration: 'dotted' }} className="text-2xl text-center dotted-text p-1 leading-10  text-black-500">
-                  Happy Birthday <span className="font-bold text-orange-500">{`${name.toUpperCase()}`}</span>
+                <h2  className="text-2xl text-center dotted-text p-1 leading-10  text-black-500">
+                  Happy Birthday <span className="font-bold text-orange-500">{name1}</span>
                   <br></br>
                   🧁🕯🎈🥳🎁🎉
                 </h2>
                 <p className="p-1 pl-2 my-6 italic text-xl border-l-4 bg-orange-50 border-orange-500">{firstLine}</p>
                 <hr className="font-bold text-red-400"></hr>
               </div>
-            </>
+          
           )}
           {secondLine && (
-            <>
+            
               <div className="flex flex-col px-4 mx-2 ">
                 <p className="text-2xl font-bold text-orange-500">
-                  Greetings for <span className="font-bold">{`${name.toUpperCase()}`}</span>
+                  Greetings for <span className="font-bold">{name1}</span>
                 </p>
                 <p className="pb-8 pt-2 text-xl">{secondLine}</p>
               </div>
-            </>
+           
           )}
-          {thirdLine && ( 
-            <>
-              <div className="font-bold px-4 mx-2">
-                <h3 className="pb-4 text-xl text-orange-500">{`${name.toUpperCase()} stand for -`}</h3>
+          {thirdLine && (
+          
+              <div className="font-bold mb-4 px-4 mx-2">
+                <h3 className="pb-4 text-xl text-orange-500"></h3>
                 {thirdLine.map(word => {
                   const firstChar=word.charAt(0);
                   const restChar=word.slice(1,word.length)
@@ -164,13 +174,17 @@ function Home() {
                 }
                 )}
               </div>
-            </>
+            
           )}
      
-        </div>
+        
+      
       </div>
-      )}
-    </div>
+      </div>
+      </div>
+    </>
+    
+  
   );
 }
 
