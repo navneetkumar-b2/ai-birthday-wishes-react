@@ -43,9 +43,9 @@ async function fetch(){
   }
 }
   const handleSelectChange = (event) => {
-    setTone(event.target.value);
+    setTone(event.target.value); 
     alert(tone)
-    if (name) {
+    if (name) {   //important==>not working because setTone is async which executes later but alert aur fetch() phle hi call ho ja raha tha uska baad state change ho raha tha 
       fetch();
     }
      // Update the selected option when it changes
@@ -55,11 +55,6 @@ async function fetch(){
     setLanguage(newLanguage);
   };
   
-  useEffect(() => {
-    if (name) {
-      fetch(); // Call your fetch function here
-    }
-  }, [tone, language]); // Trigger the effect when either name or language changes
   
 
   const handleSubmit = async (event) => {
