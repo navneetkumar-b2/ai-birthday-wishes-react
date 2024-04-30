@@ -1,6 +1,10 @@
 import React from "react";
-
+import { formRef } from "../home/Home";
 function MsgBox() {
+  const handleClick=()=>{
+    formRef.current.scrollIntoView({ behavior: 'smooth' }); // Scroll smoothly into vie
+  }
+
   return (
     <div>
       <h3 className="text-2xl p-5 font-bold text-center	">10 Best short Birthday wishes:</h3>
@@ -46,8 +50,15 @@ function MsgBox() {
           ! 🌊🎉 Happy Birthday! 🎂🌟🎈
         </li>
       </ol>
+      <div>
+        <p>
+          Want personalised greeting ? 
+        </p>
+        <p>
+          <button onClick={handleClick}>Generate Now</button>
+        </p>
+      </div>
     </div>
   );
 }
-
 export default MsgBox;

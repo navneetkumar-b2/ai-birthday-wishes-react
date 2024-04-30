@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState,useEffect,useRef} from "react";
 import InputControl from "../InputControl";
 import { fetchGeminiData } from "../../useGeminiApi";
 import {
@@ -6,11 +6,11 @@ import {
   extractMessage,
   generatePositiveWords,
 } from "../../getPrompt";
-import useGeminiApi from "../custom-hooks/useGemini";
-// import generatePrompt from "../custom-hooks/useGemini";
 import "./loader.css";
 import "./home.css";
+let formRef=useRef(null);
 function Home() {
+  
   const [name, setName] = useState("");
   const [name1, setName1] = useState("");
   const [hobbies, setHobbies] = useState("");
@@ -18,11 +18,10 @@ function Home() {
   const [error, setError] = useState("");
   const [language, setLanguage] = useState("English");
   const [loading, setLoading] = useState(false);
-  const [generatedMessage, setGeneratedMessage] = useState(""); // State to store the generated message
   const [firstLine, setFirstLine] = useState("");
   const [secondLine, setSecondLine] = useState("");
   const [thirdLine, setThirdLine] = useState("");
-  
+
 async function fetch(){
   try {
     setLoading(true); // Set loading state to true while fetching data
@@ -97,7 +96,7 @@ async function fetch(){
         <p className=" text-center text-xl">
           Enter Name below and get Started
         </p>
-        <form onSubmit={handleSubmit} className="w-[100%] p-5">
+        <form ref={formRef}  onSubmit={handleSubmit} className="w-[100%] p-5">
           <InputControl
             label={"Enter Name or relation:"}
             type={"text"}
@@ -212,5 +211,5 @@ async function fetch(){
   
   );
 }
-
+export { formRef };
 export default Home;
