@@ -77,8 +77,12 @@ function generatePositiveWords(name) {
     Y: ['Youthful', 'Yearning', 'Yielding'],
     Z: ['Zestful', 'Zealous', 'Zippy'],
   };
+  const words = name.trim().split(/\s+/);
+  
+  // Return the first word
+  //  words.length > 0 ? words[0] : name;
 
-  const capitalizedLetters = name.toUpperCase();
+  const capitalizedLetters = words[0].toUpperCase();
   const positiveWordsList = [...capitalizedLetters].map(letter => { 
     return positiveWords[letter] || [];
   });  //returned value se ek naya array bnega

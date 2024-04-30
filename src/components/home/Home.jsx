@@ -22,7 +22,7 @@ function Home() {
   const [firstLine, setFirstLine] = useState("");
   const [secondLine, setSecondLine] = useState("");
   const [thirdLine, setThirdLine] = useState("");
-  // useGeminiApi()
+  
 async function fetch(){
   try {
     setLoading(true); // Set loading state to true while fetching data
@@ -34,6 +34,7 @@ async function fetch(){
     setFirstLine(part1);
     setSecondLine(part2);
     setThirdLine(part3);
+    const name1=name; //imp=>required to store into different value else it will be updated on updating input field but we need to display in response
     setName1(name1)
   } catch (error) {
     console.error(error);
@@ -44,28 +45,23 @@ async function fetch(){
 }
   const handleSelectChange = (event) => {
     setTone(event.target.value); 
-
   };
   const handleLanguageChange = (event) => {
     const newLanguage = event.target.value;
     setLanguage(newLanguage);
   };
   const handleNameChange = (val) => {
-    // const n = event.target.value;  ==>important -it dont work because onchange prop with fn value is passed to child component and child component calls this functinon with value
-    //parent se ek function pass kiya hai aur ush function ko child call lr raha hai with parameters
+   
     setName(val);
-  
   const nameRegex = /^[a-zA-Z ]+$/; 
   if (!nameRegex.test(name)) {
     setError("Please enter a valid name");
     return;
   }
-
   if (name.length > 20) {
     setError("Please enter a name of 20 characters or less");
     return;
   }
-
   setError(""); // Clear error message if input is valid
   };
   
@@ -87,9 +83,9 @@ async function fetch(){
     // Clear any previous errors
     setError(null);
     console.log("called submit");
-    let name1=name;
     fetch();
   };
+ 
   return (
     <>
       <div
@@ -98,7 +94,7 @@ async function fetch(){
         pt-7 mx-auto p-2 bg-teal-100
         "
       >
-        <p className="font-bold text-center text-xl">
+        <p className=" text-center text-xl">
           Enter Name below and get Started
         </p>
         <form onSubmit={handleSubmit} className="w-[100%] p-5">
@@ -108,7 +104,7 @@ async function fetch(){
             onchange={handleNameChange}
             // id={"title"}
             value={name}
-            placeholder={"Name or relation(bhai,mom,gf,dost,bhen,nani)"}
+            placeholder={"Name or relation(bhai,mom,gf,bhen,nani)"}
             error={error}
             // required={true}
           />
@@ -120,7 +116,7 @@ async function fetch(){
             placeholder={"caring,biking,music,dance,reels"}
             
           />
-          <label className="text-xl text-green-800  h-[60px] mb-[30px]p-1 my-3 mb-[50px] font-bold text-left">
+          <label className=" text-green-800  h-[60px] mb-[30px]p-1 my-3 mb-[50px] text-left">
             Keep the Tone :
           </label>
           <select
@@ -137,7 +133,7 @@ async function fetch(){
             <option value="Professional">Professional</option>
             <option value="Poetic">Poetic</option>
           </select>
-          <label className="text-xl h-[60px] mb-[30px] mt-2 text-green-800  font-bold text-left">
+          <label className=" h-[60px] mb-[30px] mt-2 text-green-800   text-left">
             language :
           </label>
           <select
@@ -163,10 +159,10 @@ async function fetch(){
             <div className="loader  m-4"></div>
           </div>
         )}
-      
+      </div>
       <div className="w-full bg-cyan-100">
       
-        <div className="flex flex-col ">
+        <div className="flex flex-col">
           {firstLine && (
             
               <div className="flex flex-col px-4 mx-2 py-1 items-center justify-center">
@@ -199,7 +195,9 @@ async function fetch(){
                   const restChar=word.slice(1,word.length)
                   return <p className="text-centre px-4 text-xl"><span className="text-2xl text-orange-400 font-bold	">{firstChar}</span><span>{restChar}</span></p>;
                 }
+                
                 )}
+                <hr className="font-bold text-black-400"></hr>
               </div>
             
           )}
@@ -208,7 +206,7 @@ async function fetch(){
       
       </div>
       </div>
-      </div>
+      
     </>
     
   

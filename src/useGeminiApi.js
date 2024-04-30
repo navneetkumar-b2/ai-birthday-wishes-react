@@ -11,6 +11,7 @@ async function fetchGeminiData(prompt) {
         const result = await model.generateContent(prompt);
         const response =  result.response;
         const text = response.text();
+        alert(text)
         return text;
     } catch (error) {
         console.error(error);
