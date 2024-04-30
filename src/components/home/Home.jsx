@@ -27,7 +27,7 @@ async function fetch(){
   try {
     setLoading(true); // Set loading state to true while fetching data
     const prompt=generatePrompt(name, hobbies, tone, language);
-    alert(prompt)
+    // alert(prompt)
     const res = await fetchGeminiData(prompt);
     const { part1, part2 } = extractMessage(res);
     const part3 =generatePositiveWords(name) //array value is returned
@@ -44,23 +44,25 @@ async function fetch(){
 }
   const handleSelectChange = (event) => {
     setTone(event.target.value); 
-    alert(tone)
-    if (name) {   //important==>not working because setTone is async which executes later but alert aur fetch() phle hi call ho ja raha tha uska baad state change ho raha tha 
-      fetch();
-    }
-     // Update the selected option when it changes
+
   };
   const handleLanguageChange = (event) => {
     const newLanguage = event.target.value;
     setLanguage(newLanguage);
   };
-  
-  
-
+  useEffect(() => {
+    if (name) {
+      fetch(); // Call your fetch function here
+    }
+  }, [tone, language]);
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevent default form submission behavior
     if (!name) {
       setError("this field is required");
+      return; // Exit the function if name is empty
+    }
+    else if(name.length>20){
+      setError("please enter name of less than 20 characters");
       return; // Exit the function if name is empty
     }
     // Clear any previous errors
@@ -82,13 +84,14 @@ async function fetch(){
         </p>
         <form onSubmit={handleSubmit} className="w-[100%] p-5">
           <InputControl
-            label={"Enter Name :"}
+            label={"Enter Name or relation:"}
             type={"text"}
-            onchange={(value) => setName(value)}
+            onchange={(value) =>{  setError('');setName(value)}}
             // id={"title"}
             value={name}
-            placeholder={"Enter Name Here"}
+            placeholder={"Name or relation(bhai,mom,gf,dost,bhen,nani)"}
             error={error}
+            // required={true}
           />
           <InputControl
             label={"Hobbies :(optional)"}
