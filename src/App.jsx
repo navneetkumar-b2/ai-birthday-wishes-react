@@ -8,6 +8,7 @@ import MsgBox from  './components/msgDisplay/MsgBox.jsx'
 import ImageDispaly from './components/imgDisplay/ImageDispaly'
 import MsgBox1 from './components/msgDisplay/MsgDisplay1.jsx'
 import './App.css'
+import Footer from './components/Footer/Footer.jsx'
 function App() {
 
   return (
@@ -20,6 +21,7 @@ function App() {
     <MsgBox/>
     <ImageDisplay1/>
     <MsgBox1/>
+    <Footer/>
     </>
   )
 }

@@ -8,7 +8,7 @@ import {
 } from "../../getPrompt";
 import "./loader.css";
 import "./home.css";
-let formRef=useRef(null);
+// let formRef=useRef(null);
 function Home() {
   
   const [name, setName] = useState("");
@@ -96,7 +96,7 @@ async function fetch(){
         <p className=" text-center text-xl">
           Enter Name below and get Started
         </p>
-        <form ref={formRef}  onSubmit={handleSubmit} className="w-[100%] p-5">
+        <form  id="form-ai" onSubmit={handleSubmit} className="w-[100%] p-5">
           <InputControl
             label={"Enter Name or relation:"}
             type={"text"}
@@ -211,5 +211,4 @@ async function fetch(){
   
   );
 }
-export { formRef };
 export default Home;

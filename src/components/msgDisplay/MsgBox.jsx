@@ -1,10 +1,19 @@
-import React from "react";
-import { formRef } from "../home/Home";
-function MsgBox() {
-  const handleClick=()=>{
-    formRef.current.scrollIntoView({ behavior: 'smooth' }); // Scroll smoothly into vie
-  }
+import React, { useEffect,useState } from "react";
 
+function MsgBox() {
+// const [scroll,setScroll]=useState(false)
+  const handleClick=()=>{
+    // setScroll(true);
+    
+  };
+
+  // useEffect(() => {
+  //   if (scroll) {
+  //     formRef.current.scrollIntoView({ behavior: 'smooth' }); // Scroll smoothly into vie
+  //   }
+  // }, [scroll]);
+
+//forward rdf is a hook ,and hook cant called from a function,
   return (
     <div>
       <h3 className="text-2xl p-5 font-bold text-center	">10 Best short Birthday wishes:</h3>
@@ -50,12 +59,13 @@ function MsgBox() {
           ! 🌊🎉 Happy Birthday! 🎂🌟🎈
         </li>
       </ol>
-      <div>
+      <div className="p-4">
         <p>
           Want personalised greeting ? 
         </p>
         <p>
-          <button onClick={handleClick}>Generate Now</button>
+          <button  className="" onClick={handleClick}>Generate Now ☝
+          </button>
         </p>
       </div>
     </div>
