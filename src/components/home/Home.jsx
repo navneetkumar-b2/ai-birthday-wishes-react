@@ -50,6 +50,25 @@ async function fetch(){
     const newLanguage = event.target.value;
     setLanguage(newLanguage);
   };
+  const handleNameChange = (val) => {
+    // const n = event.target.value;  ==>important -it dont work because onchange prop with fn value is passed to child component and child component calls this functinon with value
+    //parent se ek function pass kiya hai aur ush function ko child call lr raha hai with parameters
+    setName(val);
+  
+  const nameRegex = /^[a-zA-Z ]+$/; 
+  if (!nameRegex.test(name)) {
+    setError("Please enter a valid name");
+    return;
+  }
+
+  if (name.length > 20) {
+    setError("Please enter a name of 20 characters or less");
+    return;
+  }
+
+  setError(""); // Clear error message if input is valid
+  };
+  
   useEffect(() => {
     if (name) {
       fetch(); // Call your fetch function here
@@ -86,7 +105,7 @@ async function fetch(){
           <InputControl
             label={"Enter Name or relation:"}
             type={"text"}
-            onchange={(value) =>{  setError('');setName(value)}}
+            onchange={handleNameChange}
             // id={"title"}
             value={name}
             placeholder={"Name or relation(bhai,mom,gf,dost,bhen,nani)"}
