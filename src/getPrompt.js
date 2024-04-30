@@ -123,7 +123,7 @@ async function fetchData(){
   try {
     setLoading(true); // Set loading state to true while fetching data
     const prompt=generatePrompt(name, hobbies, tone, language);
-    // alert(prompt)
+   
     const res = await fetchGeminiData(prompt);
     const { part1, part2 } = extractMessage(res);
     const part3 =generatePositiveWords(name) //array value is returned

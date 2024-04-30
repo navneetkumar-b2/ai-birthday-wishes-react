@@ -35,7 +35,7 @@ function MsgBox() {
         </li>
 
         <li className="py-2">
-          
+    
           Happy Birthday! May your day be filled with smiles, laughter, and
           love! ❤️😊🎂
         </li>

@@ -4,11 +4,11 @@ function Footer() {
   return (
     <>
     <footer className='w-full min-h-10 bg-slate-800 text-white relative'>
-    <div className='absolute bg-blue-950 inset-0 flex justify-center items-center'>
+    <divs className='absolute bg-blue-950 inset-0 flex justify-center items-center'>
         <h1 className="text-center">
             made with ❤ by <a href='https://navneet.website/'>Navneet</a>
         </h1>
-    </div>
+    </divs>
 </footer>
 
     </>
